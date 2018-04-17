@@ -1,2 +1,2 @@
 # XPEControl
-XPE Bat Control System
+XPE Control System
