@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabnet">
      <attribute name="title">
@@ -127,7 +127,7 @@
       <widget class="QPushButton" name="btnT1confirm1">
        <property name="geometry">
         <rect>
-         <x>220</x>
+         <x>230</x>
          <y>190</y>
          <width>75</width>
          <height>23</height>
@@ -135,29 +135,6 @@
        </property>
        <property name="text">
         <string>确定</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="txtT1Path">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>160</y>
-         <width>161</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_26">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>160</y>
-         <width>54</width>
-         <height>12</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>生成路径</string>
        </property>
       </widget>
      </widget>
@@ -177,7 +154,7 @@
        <property name="geometry">
         <rect>
          <x>290</x>
-         <y>310</y>
+         <y>100</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -190,7 +167,7 @@
        <property name="geometry">
         <rect>
          <x>290</x>
-         <y>280</y>
+         <y>70</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -204,19 +181,19 @@
         <rect>
          <x>30</x>
          <y>42</y>
-         <width>91</width>
+         <width>121</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>网络文件列表</string>
+        <string>Weights文件列表.npz</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btnT1confirm3">
        <property name="geometry">
         <rect>
          <x>290</x>
-         <y>430</y>
+         <y>220</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -229,7 +206,7 @@
        <property name="geometry">
         <rect>
          <x>290</x>
-         <y>340</y>
+         <y>130</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -242,7 +219,7 @@
        <property name="geometry">
         <rect>
          <x>290</x>
-         <y>370</y>
+         <y>160</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -255,7 +232,7 @@
        <property name="geometry">
         <rect>
          <x>290</x>
-         <y>400</y>
+         <y>190</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -270,8 +247,109 @@
          <x>30</x>
          <y>70</y>
          <width>251</width>
-         <height>381</height>
+         <height>171</height>
         </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1confirm4">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>440</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_21">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>262</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Image文件列表.npy</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="lstT1ImageList">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>290</y>
+         <width>251</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1AddFile_2">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>290</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>添加文件</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1RemoveAll_2">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>350</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>清空列表</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1ExportList_2">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>380</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>导出列表</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1ImportList_2">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>410</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>读取列表</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1RemoveFile_2">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>320</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>删除文件</string>
        </property>
       </widget>
      </widget>
@@ -292,12 +370,12 @@
         <rect>
          <x>20</x>
          <y>40</y>
-         <width>54</width>
-         <height>12</height>
+         <width>51</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>导入网络</string>
+        <string>Weights</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btnT1ImportNet">
@@ -326,14 +404,50 @@
       <widget class="QPushButton" name="btnT1confirm2">
        <property name="geometry">
         <rect>
-         <x>220</x>
-         <y>180</y>
+         <x>230</x>
+         <y>200</y>
          <width>75</width>
          <height>23</height>
         </rect>
        </property>
        <property name="text">
         <string>确定</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT1ImportImage">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>80</y>
+         <width>61</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>打开文件</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_22">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Images</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="txtT1ImportImage">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>80</y>
+         <width>161</width>
+         <height>20</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -395,7 +509,7 @@
          <bool>true</bool>
         </property>
         <property name="currentText">
-         <string>None</string>
+         <string/>
         </property>
         <property name="currentIndex">
          <number>-1</number>
@@ -775,15 +889,6 @@
         <string>确定</string>
        </property>
       </widget>
-      <zorder>groupBox</zorder>
-      <zorder>groupBox_2</zorder>
-      <zorder>groupBox_3</zorder>
-      <zorder>btnT2Default</zorder>
-      <zorder>btnT2Read</zorder>
-      <zorder>btnT2Save</zorder>
-      <zorder>btnT2Confirm1</zorder>
-      <zorder>lineEdit_20</zorder>
-      <zorder>label_28</zorder>
      </widget>
      <widget class="QGroupBox" name="groupBatConfig">
       <property name="geometry">
@@ -916,72 +1021,10 @@
       <property name="title">
        <string>用例设定</string>
       </property>
-      <widget class="QPushButton" name="btnT3RemoveAllNet">
-       <property name="geometry">
-        <rect>
-         <x>280</x>
-         <y>250</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>清空列表</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_19">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>30</y>
-         <width>101</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>网络数据文件列表</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="btnT3RemoveNet">
-       <property name="geometry">
-        <rect>
-         <x>280</x>
-         <y>220</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>删除</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="btnT3AddNet">
-       <property name="geometry">
-        <rect>
-         <x>280</x>
-         <y>190</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>添加</string>
-       </property>
-      </widget>
-      <widget class="QListWidget" name="lstT3NetList">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>50</y>
-         <width>231</width>
-         <height>231</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="btnT3RemoveConfig">
        <property name="geometry">
         <rect>
-         <x>630</x>
+         <x>610</x>
          <y>220</y>
          <width>75</width>
          <height>23</height>
@@ -994,9 +1037,9 @@
       <widget class="QListWidget" name="lstT3ConfigList">
        <property name="geometry">
         <rect>
-         <x>380</x>
-         <y>50</y>
-         <width>231</width>
+         <x>360</x>
+         <y>40</y>
+         <width>241</width>
          <height>231</height>
         </rect>
        </property>
@@ -1004,7 +1047,7 @@
       <widget class="QPushButton" name="btnT3AddConfig">
        <property name="geometry">
         <rect>
-         <x>630</x>
+         <x>610</x>
          <y>190</y>
          <width>75</width>
          <height>23</height>
@@ -1017,8 +1060,8 @@
       <widget class="QLabel" name="label_20">
        <property name="geometry">
         <rect>
-         <x>380</x>
-         <y>30</y>
+         <x>360</x>
+         <y>20</y>
          <width>81</width>
          <height>16</height>
         </rect>
@@ -1030,7 +1073,7 @@
       <widget class="QPushButton" name="btnT3RemoveAllConfig">
        <property name="geometry">
         <rect>
-         <x>630</x>
+         <x>610</x>
          <y>250</y>
          <width>75</width>
          <height>23</height>
@@ -1043,34 +1086,21 @@
       <widget class="QGroupBox" name="groupBox_4">
        <property name="geometry">
         <rect>
-         <x>40</x>
+         <x>360</x>
          <y>290</y>
-         <width>411</width>
-         <height>171</height>
+         <width>191</width>
+         <height>181</height>
         </rect>
        </property>
        <property name="title">
         <string>训练网络</string>
        </property>
-       <widget class="QLabel" name="label_27">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>140</y>
-          <width>54</width>
-          <height>12</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>生成路径</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="txtT3BatchSize">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>60</y>
-          <width>141</width>
+          <x>70</x>
+          <y>20</y>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1078,9 +1108,9 @@
        <widget class="QLineEdit" name="txtT3OpenNet">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>20</y>
-          <width>161</width>
+          <x>70</x>
+          <y>100</y>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1088,19 +1118,9 @@
        <widget class="QLineEdit" name="txtT3EPoch">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>100</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="txtT3Path">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>140</y>
-          <width>161</width>
+          <x>70</x>
+          <y>60</y>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1108,8 +1128,8 @@
        <widget class="QLabel" name="label_25">
         <property name="geometry">
          <rect>
-          <x>70</x>
-          <y>100</y>
+          <x>30</x>
+          <y>60</y>
           <width>31</width>
           <height>16</height>
          </rect>
@@ -1121,8 +1141,8 @@
        <widget class="QLabel" name="label_24">
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>60</y>
+          <x>10</x>
+          <y>20</y>
           <width>61</width>
           <height>20</height>
          </rect>
@@ -1134,8 +1154,8 @@
        <widget class="QLabel" name="label_23">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>20</y>
+          <x>20</x>
+          <y>100</y>
           <width>51</width>
           <height>16</height>
          </rect>
@@ -1144,23 +1164,10 @@
          <string>选择网络</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_29">
+       <widget class="QPushButton" name="btnT3OpenNet">
         <property name="geometry">
          <rect>
-          <x>260</x>
-          <y>20</y>
-          <width>61</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>打开文件</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_30">
-        <property name="geometry">
-         <rect>
-          <x>260</x>
+          <x>110</x>
           <y>140</y>
           <width>61</width>
           <height>23</height>
@@ -1170,14 +1177,22 @@
          <string>打开文件</string>
         </property>
        </widget>
+       <zorder>txtT3BatchSize</zorder>
+       <zorder>txtT3OpenNet</zorder>
+       <zorder>txtT3EPoch</zorder>
+       <zorder>label_25</zorder>
+       <zorder>label_24</zorder>
+       <zorder>label_23</zorder>
+       <zorder>btnT3OpenNet</zorder>
+       <zorder>groupBox_14</zorder>
       </widget>
       <widget class="QGroupBox" name="groupBox_5">
        <property name="geometry">
         <rect>
-         <x>480</x>
+         <x>570</x>
          <y>290</y>
-         <width>121</width>
-         <height>171</height>
+         <width>111</width>
+         <height>181</height>
         </rect>
        </property>
        <property name="title">
@@ -1187,7 +1202,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>90</y>
+          <y>110</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -1200,7 +1215,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>120</y>
+          <y>140</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -1213,7 +1228,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>30</y>
+          <y>50</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -1226,7 +1241,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>60</y>
+          <y>80</y>
           <width>75</width>
           <height>23</height>
          </rect>
@@ -1235,6 +1250,167 @@
          <string>保存用例</string>
         </property>
        </widget>
+       <widget class="QCheckBox" name="checkBox_21">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>71</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>训练网络</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>321</width>
+         <height>451</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>网络文件设置</string>
+       </property>
+       <widget class="QPushButton" name="btnT3RemoveAllImage">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>410</y>
+          <width>71</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>清空列表</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnT3AddImage">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>410</y>
+          <width>71</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>添加</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnT3AddNet">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>200</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>添加</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnT3RemoveAllNet">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>200</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>清空列表</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_19">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Weights文件列表.npz</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="lstT3NetList">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>271</width>
+          <height>151</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnT3RemoveImage">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>410</y>
+          <width>71</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>删除</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnT3RemoveNet">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>200</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>删除</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_26">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>230</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Image文件列表.npy</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="lstT3ImageList">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>250</y>
+          <width>271</width>
+          <height>151</height>
+         </rect>
+        </property>
+       </widget>
+       <zorder>btnT3RemoveAllImage</zorder>
+       <zorder>btnT3AddImage</zorder>
+       <zorder>btnT3AddNet</zorder>
+       <zorder>btnT3RemoveAllNet</zorder>
+       <zorder>label_19</zorder>
+       <zorder>lstT3NetList</zorder>
+       <zorder>btnT3RemoveImage</zorder>
+       <zorder>btnT3RemoveNet</zorder>
+       <zorder>label_26</zorder>
+       <zorder>lstT3ImageList</zorder>
+       <zorder>groupBox_4</zorder>
       </widget>
      </widget>
     </widget>
@@ -1245,19 +1421,19 @@
      <widget class="QGroupBox" name="groupBox_8">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>270</y>
-        <width>321</width>
+        <x>280</x>
+        <y>260</y>
+        <width>301</width>
         <height>231</height>
        </rect>
       </property>
       <property name="title">
-       <string>配置文件信息</string>
+       <string>配置文件信息.conf</string>
       </property>
-      <widget class="QListView" name="listView_8">
+      <widget class="QListWidget" name="lstT3NetList_3">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>20</x>
          <y>30</y>
          <width>261</width>
          <height>181</height>
@@ -1268,349 +1444,367 @@
      <widget class="QGroupBox" name="groupBox_7">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>20</y>
-        <width>321</width>
+        <x>10</x>
+        <y>10</y>
+        <width>261</width>
         <height>231</height>
        </rect>
       </property>
       <property name="title">
-       <string>网络信息</string>
+       <string>Weight文件信息.npz</string>
       </property>
-      <widget class="QListView" name="listView_7">
+      <widget class="QListWidget" name="lstT3NetList_2">
        <property name="geometry">
         <rect>
          <x>30</x>
          <y>30</y>
-         <width>261</width>
+         <width>211</width>
          <height>181</height>
         </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_12">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>10</y>
+        <width>301</width>
+        <height>231</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>结果分析选项</string>
+      </property>
+      <widget class="QCheckBox" name="checkBox">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>40</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Array Size</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>70</y>
+         <width>111</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Cores</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_3">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>101</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Area</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_4">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>130</y>
+         <width>141</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Read Dynamic Energy</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_5">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>160</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Read Power</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_6">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>130</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Average</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_7">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>160</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Show List</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_8">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>40</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Performance</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_9">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>100</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Min/Max</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_10">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>70</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Accuracy</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_13">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>10</y>
+        <width>181</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>模拟设置</string>
+      </property>
+      <widget class="QPushButton" name="btnT4StartSimulation">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>430</y>
+         <width>101</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>开始硬件模拟</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_23">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>360</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>自动全部模拟</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>390</y>
+         <width>101</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>开始训练网络</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>141</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_53">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Python 路径</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>80</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>选择文件</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>150</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>选择文件</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_54">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>101</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Starter 路径</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>130</y>
+         <width>141</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>200</y>
+         <width>141</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_55">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>180</y>
+         <width>101</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Batch Size</string>
        </property>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_9">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>20</y>
-        <width>381</width>
-        <height>481</height>
+        <x>10</x>
+        <y>260</y>
+        <width>261</width>
+        <height>231</height>
        </rect>
       </property>
       <property name="title">
-       <string>硬件模拟设置</string>
+       <string>Image文件信息.npy</string>
       </property>
-      <widget class="QGroupBox" name="groupBox_12">
+      <widget class="QListWidget" name="lstT3NetList_5">
        <property name="geometry">
         <rect>
          <x>30</x>
          <y>30</y>
-         <width>321</width>
-         <height>201</height>
+         <width>211</width>
+         <height>181</height>
         </rect>
        </property>
-       <property name="title">
-        <string>结果分析选项</string>
-       </property>
-       <widget class="QCheckBox" name="checkBox">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>30</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_2">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>60</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_3">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>90</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_4">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>120</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_5">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>150</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_6">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>120</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_7">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>150</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_8">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>30</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_9">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>90</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_10">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>60</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_35">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>160</y>
-          <width>75</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="groupBox_13">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>250</y>
-         <width>321</width>
-         <height>201</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>结果显示设置</string>
-       </property>
-       <widget class="QCheckBox" name="checkBox_11">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>30</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_12">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>120</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_13">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>150</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_14">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>90</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_15">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>30</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_16">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>90</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_17">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>60</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_18">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>150</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_19">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>120</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_20">
-        <property name="geometry">
-         <rect>
-          <x>150</x>
-          <y>60</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>CheckBox</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_41">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>160</y>
-          <width>75</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
       </widget>
      </widget>
     </widget>
@@ -1621,9 +1815,9 @@
      <widget class="QGroupBox" name="groupBox_10">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>20</y>
-        <width>321</width>
+        <width>361</width>
         <height>481</height>
        </rect>
       </property>
@@ -1633,9 +1827,9 @@
       <widget class="QListView" name="listView_9">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>40</x>
          <y>40</y>
-         <width>251</width>
+         <width>281</width>
          <height>381</height>
         </rect>
        </property>
@@ -1643,7 +1837,7 @@
       <widget class="QPushButton" name="pushButton_31">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>240</x>
          <y>430</y>
          <width>75</width>
          <height>23</height>
@@ -1657,9 +1851,9 @@
      <widget class="QGroupBox" name="groupBox_11">
       <property name="geometry">
        <rect>
-        <x>370</x>
+        <x>390</x>
         <y>20</y>
-        <width>381</width>
+        <width>361</width>
         <height>481</height>
        </rect>
       </property>
@@ -1671,7 +1865,7 @@
         <rect>
          <x>40</x>
          <y>40</y>
-         <width>311</width>
+         <width>281</width>
          <height>381</height>
         </rect>
        </property>
@@ -1679,7 +1873,7 @@
       <widget class="QPushButton" name="pushButton_34">
        <property name="geometry">
         <rect>
-         <x>280</x>
+         <x>240</x>
          <y>430</y>
          <width>75</width>
          <height>23</height>
