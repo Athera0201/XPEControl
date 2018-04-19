@@ -2,10 +2,13 @@
 from PyQt5 import QtWidgets  
 from PyQt5.QtWidgets import (QMainWindow, QLineEdit, 
     QAction, QFileDialog, QApplication, QTextEdit)
+from PyQt5.QtWidgets import QMessageBox
 from test import Ui_MainWindow
 import re
 import subprocess
+from pathlib import Path
 
+defaultPath = 'C:\\'
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):  
     def __init__(self):  
         super(mywindow,self).__init__()  
@@ -87,18 +90,145 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT3RemoveAllConfig.clicked.connect(self.T3removeallconfig)
         #T3 test case:open net file
         self.btnT3OpenNet.clicked.connect(self.T3opennet)
+        #T3 test case:save test case
+        self.btnT3SaveCase.clicked.connect(self.T3savecase)
+        #T3 test case:load test case
+        self.btnT3LoadCase.clicked.connect(self.T3loadcase)
+        
         #T4 hardware simulation:start simulation
         self.btnT4StartSimulation.clicked.connect(self.T4startsimulation)
+        #T4 hardware simulation:open python path
+        self.btnT4Python.clicked.connect(self.T4python)
+        self.cmbT4NetType.addItem("mlp")
+        self.cmbT4NetType.addItem("cnn")
+        
+    #T4 hardware simulation:open python path
+    def T4python(self):
+        fname = QFileDialog.getExistingDirectory(self,'Open file',defaultPath)
+        if fname:
+            self.txtT4Python.setText(fname)
         
     #T4 hardware sumulation:start simulation
     def T4startsimulation(self):
-        p = subprocess.Popen("c:\python27\python inference_cnn_loadweight.py",stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-        print(p.stdout.read())
-        print(p.stderr.read())
+        self.tabWidget.setCurrentIndex(4)
+        try:
+            p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(0).text()+\
+            " "+self.lstT4ImageList.item(0).text()+" "+self.txtT4BatchSize.text()+" "+self.cmbT4NetType.currentText()+" "+\
+            self.lstT4ConfigList.item(0).text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines=True)
+            self.txtT5Result.setText(p.stdout.read())
+            #print(p.stdout.read())
+            print(p.stderr.read())          
+        except FileNotFoundError:
+            self.txtT5Result.setText("FileNotFoundError!\n")
         
+    #T3 test case:load test case
+    def T3loadcase(self):
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'Test case Files (*.case);;All Files (*)')
+        if fname[0]:    
+            with open(fname[0], "r") as fi:
+                f = fi.read()
+                
+                a = f.find("?Net", 0)
+                b = f.find("?", a+1)
+                Net = f[a+len("?Net")+1:b-1]
+                names = re.split('\n',Net)
+                i = self.lstT3NetList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT3NetList.takeItem(i)
+                    item_deleted=None
+                i = self.lstT1NetList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT1NetList.takeItem(i)
+                    item_deleted=None           
+                for name in names:
+                    self.lstT3NetList.addItem(name) 
+                    self.lstT1NetList.addItem(name)
+                
+                a = f.find("?Image", 0)
+                b = f.find("?", a+1)
+                Image = f[a+len("?Image")+1:b-1]
+                names = re.split('\n',Image)
+                i = self.lstT3ImageList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT3ImageList.takeItem(i)
+                    item_deleted=None
+                i = self.lstT1ImageList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT1ImageList.takeItem(i)
+                    item_deleted=None          
+                for name in names:
+                    self.lstT3ImageList.addItem(name)
+                    self.lstT1ImageList.addItem(name)
+                
+                a = f.find("?Config", 0)
+                b = f.find("?", a+1)
+                Config = f[a+len("?Config")+1:b-1]
+                names = re.split('\n',Config)
+                i = self.lstT3ConfigList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT3ConfigList.takeItem(i)
+                    item_deleted=None
+                i = self.lstT2ConfigList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT2ConfigList.takeItem(i)
+                    item_deleted=None
+                for name in names:
+                    self.lstT3ConfigList.addItem(name)
+                    self.lstT2ConfigList.addItem(name)
+                    
+                a = f.find("?Train",0)
+                b = f.find("\n", a)
+                Batch = f[a+len("?Train")+1:b]
+                self.txtT3BatchSize.setText(Batch)
+                self.txtT1BatchSize.setText(Batch)
+                
+                a = b+1
+                b = f.find("\n",a)
+                EPoch = f[a:b]
+                self.txtT3EPoch.setText(EPoch)
+                self.txtT1EPoch.setText(EPoch)
+                
+                a = b+1
+                b = f.find("\n",a)
+                SNet = f[a:b]
+                self.txtT3OpenNet.setText(SNet)
+                self.txtT1OpenNet.setText(SNet)
+                
+        
+    #T3 test case:save test case
+    def T3savecase(self):
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Test case Files (*.case);;All Files (*)')
+        if fname[0]:            
+            with open(fname[0],'w') as f:
+                f.write("?Net ")
+                i=0
+                while(i<self.lstT3NetList.count()):
+                    f.write(self.lstT3NetList.item(i).text()+"\n")
+                    i=i+1  
+                f.write("?Image ")
+                i=0
+                while(i<self.lstT3ImageList.count()):
+                    f.write(self.lstT3ImageList.item(i).text()+"\n")
+                    i=i+1  
+                f.write("?Config ")
+                i=0
+                while(i<self.lstT3ConfigList.count()):
+                    f.write(self.lstT3ConfigList.item(i).text()+"\n")
+                    i=i+1  
+                f.write("?Train ")
+                f.write(self.txtT3BatchSize.text()+"\n")
+                f.write(self.txtT3EPoch.text()+"\n")
+                f.write(self.txtT3OpenNet.text()+"\n")        
+                
     #T3 test case:open net file
     def T3opennet(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
         if fname[0]:
             self.txtT3OpenNet.setText(fname[0])
         
@@ -117,10 +247,9 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
     #T3 test case:add config file
     def T3addconfig(self):
-        fname = QFileDialog.getOpenFileNames(self,'Open file','c:\\')
-        if fname[0]:
-            for name in fname[0]:
-                self.lstT3ConfigList.addItem(name)
+        fname = QFileDialog.getExistingDirectory(self,'Open file',defaultPath)
+        if fname:
+            self.lstT3ConfigList.addItem(fname)
     
     #T3 test case:remove all image
     def T3removeallimage(self):
@@ -137,7 +266,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
     #T3 test case:add image file
     def T3addimage(self):
-        fname = QFileDialog.getOpenFileNames(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileNames(self,'Open file',defaultPath,'Image Files (*.npy);;All Files (*)')
         if fname[0]:
             for name in fname[0]:
                 self.lstT3ImageList.addItem(name)
@@ -157,7 +286,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
     #T3 test case:add net file
     def T3addnet(self):
-        fname = QFileDialog.getOpenFileNames(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileNames(self,'Open file',defaultPath,'Net Files (*.npz);;All Files (*)')
         if fname[0]:
             for name in fname[0]:
                 self.lstT3NetList.addItem(name)
@@ -168,7 +297,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T2 Config:import list
     def T2import(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\','Config List Files (*.Clist)')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'Config List Files (*.Clist);;All Files (*)')
         if fname[0]:
             i = self.lstT2ConfigList.count()
             while(i>=0):
@@ -183,7 +312,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T2 config:export list
     def T2export(self):
-        fname = QFileDialog.getSaveFileName(self,'Open file','c:\\','Config List Files (*.Clist)')
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Config List Files (*.Clist);;All Files (*)')
         if fname[0]:
             i=0
             with open(fname[0],'w') as f:
@@ -210,15 +339,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T2 config:add file button
     def T2addfile(self):
-        fname = QFileDialog.getOpenFileNames(self,'Open file','c:\\')
-        if fname[0]:
-            for name in fname[0]:
-                self.lstT2ConfigList.addItem(name)
+        fname = QFileDialog.getExistingDirectory(self,'Open file',defaultPath)
+        if fname:
+            self.lstT2ConfigList.addItem(fname)
 
      
     #T2 config:Load settings
     def T2load(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\','Config Files(*.conf)')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'Config Files(*.conf);;All Files (*)')
         if fname[0]:    
             with open(fname[0], "r") as fi:
                 f = fi.read()
@@ -250,22 +378,47 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                     
     #T2 config:Save settings
     def T2save(self):
-        fname = QFileDialog.getSaveFileName(self,'Open file','c:\\','Config Files(*.conf)')
-        if fname[0]:
-            i=0
-            with open(fname[0],'w') as f:
-                f.write("-DesignOptimization None\n")
-                f.write("-numCoreVMax "+self.txtT2CoreVMax.text()+"\n")
-                f.write("-numCoreHMax "+self.txtT2CoreHMax.text()+"\n")
-                f.write("-IOBits "+self.txtT2IOBits.text()+"\n")
-                f.write("-numArrayCol "+self.txtT2ArrayCol.text()+"\n")
-                f.write("-numArrayRow "+self.txtT2ArrayRow.text()+"\n")
-                f.write("-CellType DigitalRRAMTHU\n")
-                f.write("-WeightBits "+self.txtT2WeightBits.text()+"\n")
-                f.write("-CellBits "+self.txtT2CellBits.text()+"\n")
-                f.write("-Rmin "+self.txtT2RMin.text()+"\n")
-                f.write("-Rmax "+self.txtT2RMax.text()+"\n")
-                f.write("-ReadVoltage "+self.txtT2Voltage.text()+"\n")
+        fname = QFileDialog.getExistingDirectory(self,'Open file',defaultPath)
+        if fname:
+            a = fname+'/simconfig'
+            b = Path(a)
+            if b.exists():
+                result = QMessageBox.information(self,                        
+                                    "文件覆盖警告",  
+                                    "确定要覆盖当前目录中的simconfig文件么？",  
+                                    QMessageBox.Yes | QMessageBox.No)  
+            
+                if result==QMessageBox.Yes:
+                    i=0
+                    with open(a,'w') as f:
+                        f.write("-DesignOptimization None\n")
+                        f.write("-numCoreVMax "+self.txtT2CoreVMax.text()+"\n")
+                        f.write("-numCoreHMax "+self.txtT2CoreHMax.text()+"\n")
+                        f.write("-IOBits "+self.txtT2IOBits.text()+"\n")
+                        f.write("-numArrayCol "+self.txtT2ArrayCol.text()+"\n")
+                        f.write("-numArrayRow "+self.txtT2ArrayRow.text()+"\n")
+                        f.write("-CellType DigitalRRAMTHU\n")
+                        f.write("-WeightBits "+self.txtT2WeightBits.text()+"\n")
+                        f.write("-CellBits "+self.txtT2CellBits.text()+"\n")
+                        f.write("-Rmin "+self.txtT2RMin.text()+"\n")
+                        f.write("-Rmax "+self.txtT2RMax.text()+"\n")
+                        f.write("-ReadVoltage "+self.txtT2Voltage.text()+"\n")
+                    
+            else:
+                i=0
+                with open(a,'w') as f:
+                    f.write("-DesignOptimization None\n")
+                    f.write("-numCoreVMax "+self.txtT2CoreVMax.text()+"\n")
+                    f.write("-numCoreHMax "+self.txtT2CoreHMax.text()+"\n")
+                    f.write("-IOBits "+self.txtT2IOBits.text()+"\n")
+                    f.write("-numArrayCol "+self.txtT2ArrayCol.text()+"\n")
+                    f.write("-numArrayRow "+self.txtT2ArrayRow.text()+"\n")
+                    f.write("-CellType DigitalRRAMTHU\n")
+                    f.write("-WeightBits "+self.txtT2WeightBits.text()+"\n")
+                    f.write("-CellBits "+self.txtT2CellBits.text()+"\n")
+                    f.write("-Rmin "+self.txtT2RMin.text()+"\n")
+                    f.write("-Rmax "+self.txtT2RMax.text()+"\n")
+                    f.write("-ReadVoltage "+self.txtT2Voltage.text()+"\n")
         
     #T2 config:Default settings
     def T2default(self):
@@ -282,7 +435,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
      
     #T1 net:import list
     def T1import2(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\','List Files (*.list)')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'List Files (*.list);;All Files (*)')
         if fname[0]:
             i = self.lstT1ImageList.count()
             while(i>=0):
@@ -297,7 +450,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T1 net:export list
     def T1export2(self):
-        fname = QFileDialog.getSaveFileName(self,'Open file','c:\\','List Files (*.list)')
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'List Files (*.list);;All Files (*)')
         if fname[0]:
             i=0
             with open(fname[0],'w') as f:
@@ -324,14 +477,14 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T1 net:add file button
     def T1addfile2(self):
-        fname = QFileDialog.getOpenFileNames(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileNames(self,'Open file',defaultPath,'Image Files (*.npy);;All Files (*)')
         if fname[0]:
             for name in fname[0]:
                 self.lstT1ImageList.addItem(name)
      
     #T1 net:import list
     def T1import(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\','List Files (*.list)')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'List Files (*.list);;All Files (*)')
         if fname[0]:
             i = self.lstT1NetList.count()
             while(i>=0):
@@ -346,7 +499,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T1 net:export list
     def T1export(self):
-        fname = QFileDialog.getSaveFileName(self,'Open file','c:\\','List Files (*.list)')
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'List Files (*.list);;All Files (*)')
         if fname[0]:
             i=0
             with open(fname[0],'w') as f:
@@ -373,7 +526,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T1 net:add file button
     def T1addfile(self):
-        fname = QFileDialog.getOpenFileNames(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileNames(self,'Open file',defaultPath,'Net Files (*.npz);;All Files (*)')
         if fname[0]:
             for name in fname[0]:
                 self.lstT1NetList.addItem(name)
@@ -384,19 +537,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T1 net:open import net file
     def openT1importnet(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
         if fname[0]:
             self.txtT1ImportNet.setText(fname[0])     
 
     #T1 net:open import image file
     def openT1importimage(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
         if fname[0]:
             self.txtT1ImportImage.setText(fname[0])             
 
     #T1 net:open net file
     def openT1net(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file','c:\\')
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
         if fname[0]:
             self.txtT1OpenNet.setText(fname[0])
             
@@ -433,7 +586,38 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             self.txtT3OpenNet.setText(self.txtT1OpenNet.text())
             self.txtT3BatchSize.setText(self.txtT1BatchSize.text())
             self.txtT3EPoch.setText(self.txtT1EPoch.text())
-  
+        if self.tabWidget.currentIndex() == 3:
+            i = self.lstT4NetList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT4NetList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT1NetList.count()):
+                self.lstT4NetList.addItem(self.lstT1NetList.item(i).text())
+                i=i+1
+            i = self.lstT4ImageList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT4ImageList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT1ImageList.count()):
+                self.lstT4ImageList.addItem(self.lstT1ImageList.item(i).text())
+                i=i+1
+            i = self.lstT4ConfigList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT4ConfigList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT2ConfigList.count()):
+                self.lstT4ConfigList.addItem(self.lstT2ConfigList.item(i).text())
+                i=i+1
+            self.txtT4OpenNet.setText(self.txtT1OpenNet.text())
+            self.txtT4BatchSize_2.setText(self.txtT1BatchSize.text())
+            self.txtT4EPoch.setText(self.txtT1EPoch.text())
+            
 if __name__=="__main__":  
     import sys  
   
