@@ -1404,7 +1404,7 @@
        <rect>
         <x>280</x>
         <y>260</y>
-        <width>301</width>
+        <width>281</width>
         <height>231</height>
        </rect>
       </property>
@@ -1416,7 +1416,7 @@
         <rect>
          <x>20</x>
          <y>30</y>
-         <width>261</width>
+         <width>241</width>
          <height>181</height>
         </rect>
        </property>
@@ -1450,7 +1450,7 @@
        <rect>
         <x>280</x>
         <y>10</y>
-        <width>301</width>
+        <width>281</width>
         <height>231</height>
        </rect>
       </property>
@@ -1540,7 +1540,7 @@
       <widget class="QCheckBox" name="checkBox_6">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>190</x>
          <y>130</y>
          <width>71</width>
          <height>16</height>
@@ -1556,7 +1556,7 @@
       <widget class="QCheckBox" name="checkBox_7">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>190</x>
          <y>160</y>
          <width>81</width>
          <height>16</height>
@@ -1588,7 +1588,7 @@
       <widget class="QCheckBox" name="checkBox_9">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>190</x>
          <y>100</y>
          <width>71</width>
          <height>16</height>
@@ -1621,9 +1621,9 @@
      <widget class="QGroupBox" name="groupBox_13">
       <property name="geometry">
        <rect>
-        <x>590</x>
+        <x>570</x>
         <y>10</y>
-        <width>181</width>
+        <width>201</width>
         <height>481</height>
        </rect>
       </property>
@@ -1633,8 +1633,8 @@
       <widget class="QPushButton" name="btnT4StartSimulation">
        <property name="geometry">
         <rect>
-         <x>40</x>
-         <y>440</y>
+         <x>70</x>
+         <y>450</y>
          <width>101</width>
          <height>23</height>
         </rect>
@@ -1643,24 +1643,11 @@
         <string>开始硬件模拟</string>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_23">
+      <widget class="QPushButton" name="btnT4StartTrain">
        <property name="geometry">
         <rect>
-         <x>40</x>
-         <y>360</y>
-         <width>91</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>自动全部模拟</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>410</y>
+         <x>70</x>
+         <y>420</y>
          <width>101</width>
          <height>23</height>
         </rect>
@@ -1674,7 +1661,7 @@
         <rect>
          <x>20</x>
          <y>40</y>
-         <width>141</width>
+         <width>161</width>
          <height>20</height>
         </rect>
        </property>
@@ -1695,7 +1682,7 @@
       <widget class="QPushButton" name="btnT4Python">
        <property name="geometry">
         <rect>
-         <x>90</x>
+         <x>110</x>
          <y>60</y>
          <width>75</width>
          <height>23</height>
@@ -1710,7 +1697,7 @@
         <rect>
          <x>20</x>
          <y>100</y>
-         <width>141</width>
+         <width>161</width>
          <height>20</height>
         </rect>
        </property>
@@ -1733,7 +1720,7 @@
         <rect>
          <x>20</x>
          <y>150</y>
-         <width>141</width>
+         <width>161</width>
          <height>22</height>
         </rect>
        </property>
@@ -1759,8 +1746,8 @@
         <rect>
          <x>10</x>
          <y>180</y>
-         <width>161</width>
-         <height>171</height>
+         <width>181</width>
+         <height>231</height>
         </rect>
        </property>
        <property name="title">
@@ -1771,7 +1758,7 @@
          <rect>
           <x>70</x>
           <y>20</y>
-          <width>81</width>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1780,8 +1767,8 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>100</y>
-          <width>81</width>
+          <y>110</y>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1790,8 +1777,8 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>60</y>
-          <width>81</width>
+          <y>50</y>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1800,7 +1787,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>60</y>
+          <y>50</y>
           <width>31</width>
           <height>16</height>
          </rect>
@@ -1825,20 +1812,20 @@
        <widget class="QLabel" name="label_30">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>100</y>
-          <width>51</width>
-          <height>16</height>
+          <x>10</x>
+          <y>110</y>
+          <width>61</width>
+          <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>选择网络</string>
+         <string>原网络路径</string>
         </property>
        </widget>
        <widget class="QPushButton" name="btnT4OpenNet">
         <property name="geometry">
          <rect>
-          <x>60</x>
+          <x>110</x>
           <y>130</y>
           <width>61</width>
           <height>23</height>
@@ -1848,19 +1835,68 @@
          <string>打开文件</string>
         </property>
        </widget>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_22">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>380</y>
-         <width>71</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>训练网络</string>
-       </property>
+       <widget class="QLineEdit" name="txtT4OpenNet_2">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>170</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnT4Output">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>190</y>
+          <width>61</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>选择路径</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_31">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>输出位置</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cmbT4NetType_2">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>80</y>
+          <width>101</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_32">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>80</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>网络类型</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_9">

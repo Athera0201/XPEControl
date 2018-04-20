@@ -102,6 +102,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.cmbT4NetType.addItem("mlp")
         self.cmbT4NetType.addItem("cnn")
         
+        self.cmbT4NetType_2.addItem("mlp")
+        self.cmbT4NetType_2.addItem("lenet")
+        self.cmbT4NetType_2.addItem("lenetnoise")
+        
     #T4 hardware simulation:open python path
     def T4python(self):
         fname = QFileDialog.getExistingDirectory(self,'Open file',defaultPath)
