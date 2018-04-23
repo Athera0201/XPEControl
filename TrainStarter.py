@@ -32,8 +32,7 @@ from netlang.module.round import Round
 
 
 # sample
-#c:\python27\python TrainStarter.py lenetnoise 100 2 c:/simulatorProject/XPEControl/mlpout 
-#      c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-lenet.npz
+#c:\python27\python TrainStarter.py lenetnoise 100 2 c:/simulatorProject/XPEControl/mlpout c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-lenet.npz
 
 # c:\python27\python TrainStarter.py lenet 100 2 c:/simulatorProject/XPEControl/mlpout 
 #       c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-500-100.npz

@@ -8,9 +8,12 @@ import re
 import subprocess
 from pathlib import Path
 
-defaultPath = 'C:\\'
-class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):  
-    def __init__(self):  
+defaultPath = 'C:\\' 
+
+class mywindow(QtWidgets.QMainWindow,Ui_MainWindow): 
+    p=0
+    q=0
+    def __init__(self): 
         super(mywindow,self).__init__()  
         self.setupUi(self)  
         self.tabWidget.currentChanged.connect(self.tabchanged)      
@@ -99,13 +102,59 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT4StartSimulation.clicked.connect(self.T4startsimulation)
         #T4 hardware simulation:open python path
         self.btnT4Python.clicked.connect(self.T4python)
+        #
         self.cmbT4NetType.addItem("mlp")
         self.cmbT4NetType.addItem("cnn")
-        
+        #
         self.cmbT4NetType_2.addItem("mlp")
         self.cmbT4NetType_2.addItem("lenet")
         self.cmbT4NetType_2.addItem("lenetnoise")
+        #T4 hardware simulation:start train
+        self.btnT4StartTrain.clicked.connect(self.T4starttrain)
         
+        #T5 result:show result button
+        self.btnT5ShowResult.clicked.connect(self.T5showresult)
+        #T5 result:show process status
+        self.btnT5ShowProcess.clicked.connect(self.T5showprocess)
+        
+    #T5 result:show process
+    def T5showprocess(self):
+        pass
+    
+    #T5 result:show result
+    def T5showresult(self):
+        if self.p!=0:
+            #self.txtT5Result.setText(self.p.stdout.read())
+            pass            
+        elif self.q!=0:
+            print("T5showresult:self.q!=0")
+            returncode = self.q.poll()    
+            while returncode is None:   #检查子程序是否结束
+                    line = self.q.stdout.readline()    #若没有，则获取子程序的输出
+                    returncode = self.q.poll()
+                    line = line.strip()
+                    print (line)
+                    self.txtT5Result.append(line)
+            print (returncode)
+        
+    #T4 hardware simulation:start train
+    def T4starttrain(self):
+        self.tabWidget.setCurrentIndex(4)
+        try:
+            self.q = subprocess.Popen(self.txtT4Python.text()+"\python TrainStarter.py "+self.cmbT4NetType_2.currentText()+\
+            " "+self.txtT4BatchSize_2.text()+" "+self.txtT4EPoch.text()+" "+self.txtT4OpenNet_2.text()+" "+\
+            self.txtT4OpenNet.text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines=True)
+            #self.txtT5Result.setText(q.stdout.read())
+            #print(q.stdout.read())
+            #p.communicate()
+            #print(q.stderr.read())          
+        except FileNotFoundError:
+            self.txtT5Result.setText("FileNotFoundError!\n")
+        except CalledProcessError:
+            self.txtT5Result.setText("CalledProcessError!\n")
+        except SubprocessError:
+            self.txtT5Result.setText("SubprocessError!\n")
+            
     #T4 hardware simulation:open python path
     def T4python(self):
         fname = QFileDialog.getExistingDirectory(self,'Open file',defaultPath)
@@ -116,12 +165,12 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def T4startsimulation(self):
         self.tabWidget.setCurrentIndex(4)
         try:
-            p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(0).text()+\
+            self.p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(0).text()+\
             " "+self.lstT4ImageList.item(0).text()+" "+self.txtT4BatchSize.text()+" "+self.cmbT4NetType.currentText()+" "+\
             self.lstT4ConfigList.item(0).text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines=True)
-            self.txtT5Result.setText(p.stdout.read())
+            self.txtT5Result.setText(self.p.stdout.read())
             #print(p.stdout.read())
-            print(p.stderr.read())          
+            #print(p.stderr.read())          
         except FileNotFoundError:
             self.txtT5Result.setText("FileNotFoundError!\n")
         
