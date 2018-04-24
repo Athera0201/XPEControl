@@ -1962,7 +1962,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btnT5Stop">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -1988,7 +1988,7 @@
         <string>进程情况</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="btnT5ShowResult">
+      <widget class="QPushButton" name="btnT5Clear">
        <property name="geometry">
         <rect>
          <x>50</x>
@@ -1998,7 +1998,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>显示结果</string>
+        <string>清空窗口</string>
        </property>
       </widget>
      </widget>

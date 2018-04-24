@@ -20,7 +20,7 @@ import os
 
 #sample:
 # c:\python27\python SimStarter.py C:/simulatorProject/XPEsim-master/sim_examples/data/mnist-lenet.npz C:/
-#			simulatorProject/XPEsim-master/sim_examples/data/dataset/mnist/test.npy 10 cnn C:/simulatorProject/XPEControl
+#           simulatorProject/XPEsim-master/sim_examples/data/dataset/mnist/test.npy 10 cnn C:/simulatorProject/XPEControl
 
 weights_dir = sys.argv[1] 
 image_dir = sys.argv[2]
@@ -51,9 +51,14 @@ elif sys.argv[4] == "mlp":
         ['Linear']
     ]
 
-	
+    
 # SIM
+sys.stdout.flush() 
 HWsim = simulator.SystemSim(params) 
+sys.stdout.flush() 
 HWsim.apply(net, weights, images, labels) # Forward computing
+sys.stdout.flush() 
 HWsim.HWEvaluate()
+sys.stdout.flush() 
 HWsim.show() # Show the result in console
+sys.stdout.flush() 

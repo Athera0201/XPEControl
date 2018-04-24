@@ -2,13 +2,34 @@
 from PyQt5 import QtWidgets  
 from PyQt5.QtWidgets import (QMainWindow, QLineEdit, 
     QAction, QFileDialog, QApplication, QTextEdit)
+from PyQt5.QtCore import QThread,Qt,pyqtSignal
 from PyQt5.QtWidgets import QMessageBox
 from test import Ui_MainWindow
 import re
 import subprocess
 from pathlib import Path
+import time
 
 defaultPath = 'C:\\' 
+
+class toPrint(QThread):
+    output = pyqtSignal(str)
+    def __init__(self,p):
+        super().__init__()
+        self.p = p
+        
+    def run(self):
+        returncode = self.p.poll()    
+        print(self.p)
+        print("toPrint running,return code is:"+str(returncode))
+        while returncode is None:   #检查子程序是否结束
+            line = self.p.stdout.readline()    #若没有，则获取子程序的输出
+            returncode = self.p.poll()
+            line = line.strip()
+            self.output.emit(line)
+            #print(line)
+        self.output.emit(self.p.stdout.read())
+    
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow): 
     p=0
@@ -112,30 +133,36 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         #T4 hardware simulation:start train
         self.btnT4StartTrain.clicked.connect(self.T4starttrain)
         
-        #T5 result:show result button
-        self.btnT5ShowResult.clicked.connect(self.T5showresult)
+        #T5 result:clear button
+        self.btnT5Clear.clicked.connect(self.T5clear)
         #T5 result:show process status
         self.btnT5ShowProcess.clicked.connect(self.T5showprocess)
-        
+        #T5 result:stop subprocess
+        self.btnT5Stop.clicked.connect(self.T5stop)
+               
+    #T5 result:stop subprocess
+    def T5stop(self):
+        if self.p!=0:
+            self.p.terminate() 
+        if self.q!=0:
+            self.q.terminate()
+            
     #T5 result:show process
     def T5showprocess(self):
-        pass
-    
-    #T5 result:show result
-    def T5showresult(self):
         if self.p!=0:
-            #self.txtT5Result.setText(self.p.stdout.read())
-            pass            
-        elif self.q!=0:
-            print("T5showresult:self.q!=0")
-            returncode = self.q.poll()    
-            while returncode is None:   #检查子程序是否结束
-                    line = self.q.stdout.readline()    #若没有，则获取子程序的输出
-                    returncode = self.q.poll()
-                    line = line.strip()
-                    print (line)
-                    self.txtT5Result.append(line)
-            print (returncode)
+            self.txtT5Result.append("Subprocess return code:"+str(self.p.poll()))
+            self.txtT5Result.append("Subprocess PID:"+str(self.p.pid))           
+        if self.q!=0:
+            self.txtT5Result.append("Subprocess return code:"+str(self.q.poll()))
+            self.txtT5Result.append("Subprocess PID:"+str(self.q.pid))
+    
+    #T5 result:clear
+    def T5clear(self):
+        self.txtT5Result.setText("")
+     
+    def T5output(self,out):
+        #print("T5output triggered")
+        self.txtT5Result.append(out)
         
     #T4 hardware simulation:start train
     def T4starttrain(self):
@@ -143,17 +170,13 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         try:
             self.q = subprocess.Popen(self.txtT4Python.text()+"\python TrainStarter.py "+self.cmbT4NetType_2.currentText()+\
             " "+self.txtT4BatchSize_2.text()+" "+self.txtT4EPoch.text()+" "+self.txtT4OpenNet_2.text()+" "+\
-            self.txtT4OpenNet.text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines=True)
-            #self.txtT5Result.setText(q.stdout.read())
-            #print(q.stdout.read())
-            #p.communicate()
-            #print(q.stderr.read())          
+            self.txtT4OpenNet.text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True)
+            self.th = toPrint(self.q)
+            self.th.output.connect(self.T5output)
+            self.th.start()
+
         except FileNotFoundError:
-            self.txtT5Result.setText("FileNotFoundError!\n")
-        except CalledProcessError:
-            self.txtT5Result.setText("CalledProcessError!\n")
-        except SubprocessError:
-            self.txtT5Result.setText("SubprocessError!\n")
+            self.txtT5Result.setText("FileNotFoundError!\n")    
             
     #T4 hardware simulation:open python path
     def T4python(self):
@@ -167,10 +190,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         try:
             self.p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(0).text()+\
             " "+self.lstT4ImageList.item(0).text()+" "+self.txtT4BatchSize.text()+" "+self.cmbT4NetType.currentText()+" "+\
-            self.lstT4ConfigList.item(0).text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines=True)
-            self.txtT5Result.setText(self.p.stdout.read())
-            #print(p.stdout.read())
-            #print(p.stderr.read())          
+            self.lstT4ConfigList.item(0).text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True)
+            self.th = toPrint(self.p)
+            self.th.output.connect(self.T5output)
+            self.th.start()    
         except FileNotFoundError:
             self.txtT5Result.setText("FileNotFoundError!\n")
         

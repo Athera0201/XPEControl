@@ -34,8 +34,7 @@ from netlang.module.round import Round
 # sample
 #c:\python27\python TrainStarter.py lenetnoise 100 2 c:/simulatorProject/XPEControl/mlpout c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-lenet.npz
 
-# c:\python27\python TrainStarter.py lenet 100 2 c:/simulatorProject/XPEControl/mlpout 
-#       c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-500-100.npz
+# c:\python27\python TrainStarter.py lenet 100 2 c:/simulatorProject/XPEControl/mlpout c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-500-100.npz
 
 #c:\python27\python TrainStarter.py mlp 100 2 c:/simulatorProject/XPEControl/mlpout 
 #        c:/simulatorProject/XPEsim-master/sim_examples/data/mnist-500-100.npz
@@ -84,7 +83,7 @@ if type == "mlp":
     train_provider = Batch(train_set, batch_size, y_preprocess=[cast('int32')])
 
     print('Start training process')
-
+    sys.stdout.flush() 
     for epoch in xrange(int(epoch_num)):
         train_accuracies = []
         for i in xrange(60000 // batch_size):
@@ -103,7 +102,7 @@ if type == "mlp":
         test_accuracy = sum(test_accuracies) / len(test_accuracies)
 
         print('Epoch %d, train_accuracy %0.5f, test_accuracy %0.5f' % (epoch, train_accuracy, test_accuracy))
-
+        sys.stdout.flush() 
         net.save(output)
 
 elif type ==  "lenet":
@@ -130,14 +129,13 @@ elif type ==  "lenet":
     print('Compiled train_op')
     test_op = compile(inputs=[x, y], outputs=[accuracy])
     print('Compiled test_op')
-
     batch_size = int(batch)
 
     train_set = mnist.subset('train')
     train_provider = Batch(train_set, batch_size, y_preprocess=[cast('int32')])
 
     print('Start training')
-
+    sys.stdout.flush() 
     for epoch in xrange(int(epoch_num)):
         train_accuracies = []
         for i in xrange(60000 / batch_size):
@@ -156,7 +154,7 @@ elif type ==  "lenet":
         test_accuracy = sum(test_accuracies) / len(test_accuracies)
 
         print('Epoch %d, train_accuracy %0.5f, test_accuracy %0.5f' % (epoch, train_accuracy, test_accuracy))
-
+        sys.stdout.flush() 
         net.save(output)
         
 elif type ==  "lenetnoise":
@@ -198,13 +196,13 @@ elif type ==  "lenetnoise":
     print('Compiled train_op')
     test_op = compile(inputs=[x, y], outputs=[accuracy])
     print('Compiled test_op')
-
     batch_size = int(batch)
 
     train_set = mnist.subset('train')
     train_provider = Batch(train_set, batch_size, y_preprocess=[cast('int32')])
 
     print('Start training')
+    sys.stdout.flush() 
     testa=[]
     for epoch in xrange(int(epoch_num)):
         train_accuracies = []
@@ -224,5 +222,6 @@ elif type ==  "lenetnoise":
         test_accuracy = sum(test_accuracies) / len(test_accuracies)
         testa.append(test_accuracy)
         print('Epoch %d, train_accuracy %0.5f, test_accuracy %0.5f' % (epoch, train_accuracy, test_accuracy))
+        sys.stdout.flush() 
         net.save(output)
 
