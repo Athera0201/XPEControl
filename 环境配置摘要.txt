@@ -3,10 +3,15 @@
 3、运行 simulator 文件夹内的安装文件 python setup.py build   ->    python setup.py install
 4、运行 simulator\hardwaresim 文件夹内的安装文件 python setup.py build   ->    python setup.py install
 5、如果python找不到bat文件，更改寻找路径 SET VS90COMNTOOLS=%VS100COMNTOOLS%   后边的100改成系统内当前vs版本号。
-6、在环境变量里添加 MNIST_NPY_DIR 对应的路径  export MNIST_NPY_DIR="/home/yiboli/Documents/XPE/sim_examples/data/dataset/mnist"
+6、在环境变量里添加 MNIST_NPY_DIR 对应的路径  export MNIST_NPY_DIR="/home/yourname/Documents/XPE/sim_examples/data/dataset/mnist"
 
 7、如果发生64bit not implemented, 清理系统PATH
-8、如果使用Linux 运行此程序，需要在Popen参数中添加shell=True
+
+8、window安装theano运行环境：安装anaconda->
+   在anaconda终端中用管理员身份运行：
+				conda update -n base conda
+				conda install mingw libpython
+				conda install m2w64-toolchain
 
 
 #开发环境pyqt5 使用对应python版本的pip install PyQt5

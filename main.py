@@ -20,8 +20,8 @@ class toPrint(QThread):
         
     def run(self):
         returncode = self.p.poll()    
-        print(self.p)
-        print("toPrint running,return code is:"+str(returncode))
+        #print(self.p)
+        #print("toPrint running,return code is:"+str(returncode))
         while returncode is None:   #检查子程序是否结束
             line = self.p.stdout.readline()    #若没有，则获取子程序的输出
             returncode = self.p.poll()
@@ -40,15 +40,15 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.tabWidget.currentChanged.connect(self.tabchanged)      
         #T1 net:open net file
         self.btnT1OpenNet.clicked.connect(self.openT1net)
-        #T1 net:open import net file
-        self.btnT1ImportNet.clicked.connect(self.openT1importnet)
-        #T1 net:open import image file
-        self.btnT1ImportImage.clicked.connect(self.openT1importimage)
+        #T1 net:init combo lists
+        self.cmbT1NetType.addItem("mlp")
+        self.cmbT1NetType.addItem("cnn")
+        self.cmbT1NetType_2.addItem("mlp")
+        self.cmbT1NetType_2.addItem("cnn")
         #T1 net:confirm button 1-4
         self.btnT1confirm1.clicked.connect(self.T1confirm)
         self.btnT1confirm2.clicked.connect(self.T1confirm)
         self.btnT1confirm3.clicked.connect(self.T1confirm)
-        self.btnT1confirm4.clicked.connect(self.T1confirm)
         #T1 net:add file button
         self.btnT1AddFile.clicked.connect(self.T1addfile)
         #T1 net:remove file button
@@ -69,6 +69,16 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT1ExportList_2.clicked.connect(self.T1export2)
         #T1 net:import file list
         self.btnT1ImportList_2.clicked.connect(self.T1import2)
+        #T1 net:Path Selection
+        self.btnT1PathSelection.clicked.connect(self.T1path)
+        #T1 net:add type into type list
+        self.btnT1AddType.clicked.connect(self.T1addtype)
+        #T1 net:remove type from type list
+        self.btnT1RemoveType.clicked.connect(self.T1removetype)
+        #T1 net:add size into batch size list
+        self.btnT1AddSize.clicked.connect(self.T1addsize)
+        #T1 net:remove size from batch size list
+        self.btnT1RemoveSize.clicked.connect(self.T1removesize)
         
         #T2 config:init Design Optimization combo box
         self.cmbT2DO.addItem("None")
@@ -118,20 +128,23 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT3SaveCase.clicked.connect(self.T3savecase)
         #T3 test case:load test case
         self.btnT3LoadCase.clicked.connect(self.T3loadcase)
+        #T3 test case:confirm button
+        self.btnT3Confirm1.clicked.connect(self.T3confirm)
         
         #T4 hardware simulation:start simulation
         self.btnT4StartSimulation.clicked.connect(self.T4startsimulation)
         #T4 hardware simulation:open python path
         self.btnT4Python.clicked.connect(self.T4python)
         #
-        self.cmbT4NetType.addItem("mlp")
-        self.cmbT4NetType.addItem("cnn")
-        #
         self.cmbT4NetType_2.addItem("mlp")
         self.cmbT4NetType_2.addItem("lenet")
         self.cmbT4NetType_2.addItem("lenetnoise")
         #T4 hardware simulation:start train
         self.btnT4StartTrain.clicked.connect(self.T4starttrain)
+        #T4 hardware simulation:open net path
+        self.btnT4OpenNet.clicked.connect(self.T4opennet)
+        #T4 hardware simulation:output path
+        self.btnT4Output.clicked.connect(self.T4outputpath)
         
         #T5 result:clear button
         self.btnT5Clear.clicked.connect(self.T5clear)
@@ -139,7 +152,16 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT5ShowProcess.clicked.connect(self.T5showprocess)
         #T5 result:stop subprocess
         self.btnT5Stop.clicked.connect(self.T5stop)
+        #T5 result:save result
+        self.btnT5SaveResult.clicked.connect(self.T5saveresult)
                
+    #T5 result:save result
+    def T5saveresult(self):
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Text Files (*.txt);;All Files (*)')
+        if fname[0]:            
+            with open(fname[0],'w') as f:
+                f.write(self.txtT5Result.toPlainText())
+    
     #T5 result:stop subprocess
     def T5stop(self):
         if self.p!=0:
@@ -158,11 +180,30 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     
     #T5 result:clear
     def T5clear(self):
-        self.txtT5Result.setText("")
+        reply = QMessageBox.information(self,                         #使用infomation信息框  
+                                    "清空确认",  
+                                    "确定清空结果显示窗口？",  
+                                    QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.txtT5Result.setText("")
+                                    
      
     def T5output(self,out):
         #print("T5output triggered")
         self.txtT5Result.append(out)
+        
+    #T4 hardware simulation:output path 
+    def T4outputpath(self):
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'All Files (*)')
+        if fname[0]:   
+            self.txtT4OpenNet_2.setText(fname[0])
+    
+    #T4 hardware simulation:open net path
+    def T4opennet(self):
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'Image Files (*.npz);;All Files (*)')
+        if fname[0]:
+            self.txtT4OpenNet.setText(fname[0])
+        
         
     #T4 hardware simulation:start train
     def T4starttrain(self):
@@ -170,7 +211,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         try:
             self.q = subprocess.Popen(self.txtT4Python.text()+"\python TrainStarter.py "+self.cmbT4NetType_2.currentText()+\
             " "+self.txtT4BatchSize_2.text()+" "+self.txtT4EPoch.text()+" "+self.txtT4OpenNet_2.text()+" "+\
-            self.txtT4OpenNet.text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True)
+            self.txtT4OpenNet.text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True,shell=True)
             self.th = toPrint(self.q)
             self.th.output.connect(self.T5output)
             self.th.start()
@@ -187,15 +228,24 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     #T4 hardware sumulation:start simulation
     def T4startsimulation(self):
         self.tabWidget.setCurrentIndex(4)
-        try:
-            self.p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(0).text()+\
-            " "+self.lstT4ImageList.item(0).text()+" "+self.txtT4BatchSize.text()+" "+self.cmbT4NetType.currentText()+" "+\
-            self.lstT4ConfigList.item(0).text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True)
-            self.th = toPrint(self.p)
-            self.th.output.connect(self.T5output)
-            self.th.start()    
-        except FileNotFoundError:
-            self.txtT5Result.setText("FileNotFoundError!\n")
+        for i in range(self.lstT4NetList.count()):
+            if self.lstT4ImageList.count()<=i:
+                break
+            if self.lstT4ConfigList.count()<=i:
+                break
+            try:
+                self.p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(i).text()+\
+                " "+self.lstT4ImageList.item(i).text()+" "+self.txtT4BatchSize.text()+" "+self.cmbT4NetType.currentText()+" "+\
+                self.lstT4ConfigList.item(i).text(),shell=True,stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True)
+                self.th = toPrint(self.p)
+                self.th.output.connect(self.T5output)
+                self.th.start()    
+            except FileNotFoundError:
+                self.txtT5Result.setText("FileNotFoundError!\n")
+                
+    #T3 test case:confirm button
+    def T3confirm(self):
+        self.tabWidget.setCurrentIndex(3)
         
     #T3 test case:load test case
     def T3loadcase(self):
@@ -508,6 +558,31 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.txtT2RMin.setText("25e3")
         self.txtT2RMax.setText("265e3")
         self.txtT2Voltage.setText("0.15")
+    
+
+    #T1 net:remove size from batch size list
+    def T1removesize(self):
+        item_deleted=self.lstT1SizeList.takeItem(self.lstT1SizeList.currentRow())
+        item_deleted=None
+        
+    #T1 net:add size into batch size list
+    def T1addsize(self):
+        self.lstT1SizeList.addItem(self.txtT1BatchSize_3.text())
+    
+    #T1 net:remove type from type list
+    def T1removetype(self):
+        item_deleted=self.lstT1TypeList.takeItem(self.lstT1TypeList.currentRow())
+        item_deleted=None
+    
+    #T1 net:Add net type into type list
+    def T1addtype(self):
+        self.lstT1TypeList.addItem(self.cmbT1NetType_2.currentText())
+    
+    #T1 net:Path selection
+    def T1path(self):
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'All Files (*)')
+        if fname[0]:
+            self.txtT1OutputPath.setText(fname[0])
      
     #T1 net:import list
     def T1import2(self):
@@ -612,16 +687,16 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.tabWidget.setCurrentIndex(1)
 
     #T1 net:open import net file
-    def openT1importnet(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
-        if fname[0]:
-            self.txtT1ImportNet.setText(fname[0])     
+    #def openT1importnet(self):
+    #    fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
+    #    if fname[0]:
+    #        self.txtT1ImportNet.setText(fname[0])     
 
     #T1 net:open import image file
-    def openT1importimage(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
-        if fname[0]:
-            self.txtT1ImportImage.setText(fname[0])             
+    #def openT1importimage(self):
+    #    fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
+    #    if fname[0]:
+    #        self.txtT1ImportImage.setText(fname[0])             
 
     #T1 net:open net file
     def openT1net(self):
