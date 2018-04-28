@@ -14,9 +14,12 @@ defaultPath = 'C:\\'
 
 class toPrint(QThread):
     output = pyqtSignal(str)
-    def __init__(self,p):
+    cont = pyqtSignal()
+    def __init__(self,p,tasknum,setflag):
         super().__init__()
         self.p = p
+        self.tasknum = tasknum
+        self.setflag = setflag
         
     def run(self):
         returncode = self.p.poll()    
@@ -29,6 +32,8 @@ class toPrint(QThread):
             self.output.emit(line)
             #print(line)
         self.output.emit(self.p.stdout.read())
+        if self.tasknum==1 and self.setflag:
+            self.cont.emit()
     
 
 class mywindow(QtWidgets.QMainWindow,Ui_MainWindow): 
@@ -42,7 +47,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT1OpenNet.clicked.connect(self.openT1net)
         #T1 net:init combo lists
         self.cmbT1NetType.addItem("mlp")
-        self.cmbT1NetType.addItem("cnn")
+        self.cmbT1NetType.addItem("lenet")
+        self.cmbT1NetType.addItem("lenetnoise")
         self.cmbT1NetType_2.addItem("mlp")
         self.cmbT1NetType_2.addItem("cnn")
         #T1 net:confirm button 1-4
@@ -124,21 +130,37 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT3RemoveAllConfig.clicked.connect(self.T3removeallconfig)
         #T3 test case:open net file
         self.btnT3OpenNet.clicked.connect(self.T3opennet)
+        #T3 test case:select output path
+        self.btnT3PathSelection.clicked.connect(self.T3path)
         #T3 test case:save test case
         self.btnT3SaveCase.clicked.connect(self.T3savecase)
         #T3 test case:load test case
         self.btnT3LoadCase.clicked.connect(self.T3loadcase)
         #T3 test case:confirm button
         self.btnT3Confirm1.clicked.connect(self.T3confirm)
+        #T3 test case:init combo lists
+        self.cmbT3NetType_2.addItem("mlp")
+        self.cmbT3NetType_2.addItem("cnn")
+        self.cmbT3NetType.addItem("mlp")
+        self.cmbT3NetType.addItem("lenet")
+        self.cmbT3NetType.addItem("lenetnoise")           
+        #T3 test case:add type into type list
+        self.btnT3AddType.clicked.connect(self.T3addtype)
+        #T3 test case:remove type from type list
+        self.btnT3RemoveType.clicked.connect(self.T3removetype)
+        #T3 test case:add size into batch size list
+        self.btnT3AddSize.clicked.connect(self.T3addsize)
+        #T3 test case:remove size from batch size list
+        self.btnT3RemoveSize.clicked.connect(self.T3removesize)
         
         #T4 hardware simulation:start simulation
         self.btnT4StartSimulation.clicked.connect(self.T4startsimulation)
         #T4 hardware simulation:open python path
         self.btnT4Python.clicked.connect(self.T4python)
         #
-        self.cmbT4NetType_2.addItem("mlp")
-        self.cmbT4NetType_2.addItem("lenet")
-        self.cmbT4NetType_2.addItem("lenetnoise")
+        self.cmbT4NetType.addItem("mlp")
+        self.cmbT4NetType.addItem("lenet")
+        self.cmbT4NetType.addItem("lenetnoise")
         #T4 hardware simulation:start train
         self.btnT4StartTrain.clicked.connect(self.T4starttrain)
         #T4 hardware simulation:open net path
@@ -194,9 +216,11 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
     #T4 hardware simulation:output path 
     def T4outputpath(self):
-        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'All Files (*)')
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Image Files (*.npz);;All Files (*)')
         if fname[0]:   
             self.txtT4OpenNet_2.setText(fname[0])
+            with open(fname[0],'w') as f:
+                f.write("")
     
     #T4 hardware simulation:open net path
     def T4opennet(self):
@@ -209,11 +233,12 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def T4starttrain(self):
         self.tabWidget.setCurrentIndex(4)
         try:
-            self.q = subprocess.Popen(self.txtT4Python.text()+"\python TrainStarter.py "+self.cmbT4NetType_2.currentText()+\
-            " "+self.txtT4BatchSize_2.text()+" "+self.txtT4EPoch.text()+" "+self.txtT4OpenNet_2.text()+" "+\
+            self.q = subprocess.Popen(self.txtT4Python.text()+"\python TrainStarter.py "+self.cmbT4NetType.currentText()+\
+            " "+self.txtT4BatchSize_2.text()+" "+self.txtT4EPoch.text()+" "+self.txtT4Output.text()+" "+\
             self.txtT4OpenNet.text(),stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True,shell=True)
-            self.th = toPrint(self.q)
+            self.th = toPrint(self.q,1,self.chkT4auto.isChecked())
             self.th.output.connect(self.T5output)
+            self.th.cont.connect(self.T4startsimulation)
             self.th.start()
 
         except FileNotFoundError:
@@ -233,16 +258,38 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 break
             if self.lstT4ConfigList.count()<=i:
                 break
+            if self.lstT4TypeList.count()<=i:
+                break
+            if self.lstT4SizeList.count()<=i:
+                break
             try:
                 self.p = subprocess.Popen(self.txtT4Python.text()+"\python SimStarter.py "+self.lstT4NetList.item(i).text()+\
-                " "+self.lstT4ImageList.item(i).text()+" "+self.txtT4BatchSize.text()+" "+self.cmbT4NetType.currentText()+" "+\
+                " "+self.lstT4ImageList.item(i).text()+" "+self.lstT4SizeList.item(i).text()+" "+self.lstT4TypeList.item(i).text()+" "+\
                 self.lstT4ConfigList.item(i).text(),shell=True,stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT, universal_newlines=True)
-                self.th = toPrint(self.p)
+                self.th = toPrint(self.p,2,False)
                 self.th.output.connect(self.T5output)
                 self.th.start()    
             except FileNotFoundError:
                 self.txtT5Result.setText("FileNotFoundError!\n")
-                
+     
+    #T3 test case:remove size from batch size list
+    def T3removesize(self):
+        item_deleted=self.lstT3SizeList.takeItem(self.lstT3SizeList.currentRow())
+        item_deleted=None
+        
+    #T3 test case:add size into batch size list
+    def T3addsize(self):
+        self.lstT3SizeList.addItem(self.txtT3BatchSize_3.text())
+    
+    #T3 test case:remove type from type list
+    def T3removetype(self):
+        item_deleted=self.lstT3TypeList.takeItem(self.lstT3TypeList.currentRow())
+        item_deleted=None
+    
+    #T3 test case:Add net type into type list
+    def T3addtype(self):
+        self.lstT3TypeList.addItem(self.cmbT3NetType_2.currentText())
+     
     #T3 test case:confirm button
     def T3confirm(self):
         self.tabWidget.setCurrentIndex(3)
@@ -308,6 +355,42 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                     self.lstT3ConfigList.addItem(name)
                     self.lstT2ConfigList.addItem(name)
                     
+                a = f.find("?SizeList", 0)
+                b = f.find("?", a+1)
+                sizelist = f[a+len("?SizeList")+1:b-1]
+                names = re.split('\n',sizelist)
+                i = self.lstT3SizeList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT3SizeList.takeItem(i)
+                    item_deleted=None
+                i = self.lstT1SizeList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT1SizeList.takeItem(i)
+                    item_deleted=None
+                for name in names:
+                    self.lstT3SizeList.addItem(name)
+                    self.lstT1SizeList.addItem(name)
+                    
+                a = f.find("?TypeList", 0)
+                b = f.find("?", a+1)
+                TypeList = f[a+len("?TypeList")+1:b-1]
+                names = re.split('\n',TypeList)
+                i = self.lstT3TypeList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT3TypeList.takeItem(i)
+                    item_deleted=None
+                i = self.lstT1TypeList.count()
+                while(i>=0):
+                    i=i-1
+                    item_deleted=self.lstT1TypeList.takeItem(i)
+                    item_deleted=None
+                for name in names:
+                    self.lstT3TypeList.addItem(name)
+                    self.lstT1TypeList.addItem(name)
+                    
                 a = f.find("?Train",0)
                 b = f.find("\n", a)
                 Batch = f[a+len("?Train")+1:b]
@@ -325,6 +408,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 SNet = f[a:b]
                 self.txtT3OpenNet.setText(SNet)
                 self.txtT1OpenNet.setText(SNet)
+                
+                a = b+1
+                b = f.find("\n",a)
+                Path = f[a:b]
+                self.txtT3OutputPath.setText(Path)
+                self.txtT1OutputPath.setText(Path)
+                
+                a = b+1
+                b = f.find("\n",a)
+                Type = f[a:b]
+                t = self.cmbT3NetType.findText(Type)
+                self.cmbT3NetType.setCurrentIndex(t)
+                self.cmbT1NetType.setCurrentIndex(t)
                 
         
     #T3 test case:save test case
@@ -347,14 +443,36 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 while(i<self.lstT3ConfigList.count()):
                     f.write(self.lstT3ConfigList.item(i).text()+"\n")
                     i=i+1  
+                f.write("?SizeList ")
+                i=0
+                while(i<self.lstT3SizeList.count()):
+                    f.write(self.lstT3SizeList.item(i).text()+"\n")
+                    i=i+1 
+                f.write("?TypeList ")
+                i=0
+                while(i<self.lstT3TypeList.count()):
+                    f.write(self.lstT3TypeList.item(i).text()+"\n")
+                    i=i+1 
+                
                 f.write("?Train ")
                 f.write(self.txtT3BatchSize.text()+"\n")
                 f.write(self.txtT3EPoch.text()+"\n")
-                f.write(self.txtT3OpenNet.text()+"\n")        
+                f.write(self.txtT3OpenNet.text()+"\n") 
+                f.write(self.txtT3OutputPath.text()+"\n")
+                f.write(self.cmbT3NetType.currentText()+"\n")
+
+                
+    #T3 test case:select output path
+    def T3path(self):
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Image Files (*.npz);;All Files (*)')
+        if fname[0]:
+            self.txtT3OutputPath.setText(fname[0])
+            with open(fname[0],'w') as f:
+                f.write("")
                 
     #T3 test case:open net file
     def T3opennet(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'Net Files (*.npz);;All Files (*)')
         if fname[0]:
             self.txtT3OpenNet.setText(fname[0])
         
@@ -580,9 +698,11 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     
     #T1 net:Path selection
     def T1path(self):
-        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'All Files (*)')
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Image Files (*.npz);;All Files (*)')
         if fname[0]:
             self.txtT1OutputPath.setText(fname[0])
+            with open(fname[0],'w') as f:
+                f.write("")
      
     #T1 net:import list
     def T1import2(self):
@@ -700,7 +820,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
     #T1 net:open net file
     def openT1net(self):
-        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath)
+        fname = QFileDialog.getOpenFileName(self,'Open file',defaultPath,'Net Files (*.npz);;All Files (*)')
         if fname[0]:
             self.txtT1OpenNet.setText(fname[0])
             
@@ -734,9 +854,29 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             while(i<self.lstT2ConfigList.count()):
                 self.lstT3ConfigList.addItem(self.lstT2ConfigList.item(i).text())
                 i=i+1
+            i = self.lstT3SizeList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT3SizeList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT1SizeList.count()):
+                self.lstT3SizeList.addItem(self.lstT1SizeList.item(i).text())
+                i=i+1
+            i = self.lstT3TypeList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT3TypeList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT1TypeList.count()):
+                self.lstT3TypeList.addItem(self.lstT1TypeList.item(i).text())
+                i=i+1
             self.txtT3OpenNet.setText(self.txtT1OpenNet.text())
             self.txtT3BatchSize.setText(self.txtT1BatchSize.text())
             self.txtT3EPoch.setText(self.txtT1EPoch.text())
+            self.txtT3OutputPath.setText(self.txtT1OutputPath.text())
+            self.cmbT3NetType.setCurrentIndex(self.cmbT3NetType.findText(self.cmbT1NetType.currentText()))
         if self.tabWidget.currentIndex() == 3:
             i = self.lstT4NetList.count()
             while(i>=0):
@@ -765,9 +905,29 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             while(i<self.lstT2ConfigList.count()):
                 self.lstT4ConfigList.addItem(self.lstT2ConfigList.item(i).text())
                 i=i+1
+            i = self.lstT4TypeList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT4TypeList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT1TypeList.count()):
+                self.lstT4TypeList.addItem(self.lstT1TypeList.item(i).text())
+                i=i+1
+            i = self.lstT4SizeList.count()
+            while(i>=0):
+                i=i-1
+                item_deleted=self.lstT4SizeList.takeItem(i)
+                item_deleted=None
+            i = 0
+            while(i<self.lstT1SizeList.count()):
+                self.lstT4SizeList.addItem(self.lstT1SizeList.item(i).text())
+                i=i+1
             self.txtT4OpenNet.setText(self.txtT1OpenNet.text())
             self.txtT4BatchSize_2.setText(self.txtT1BatchSize.text())
             self.txtT4EPoch.setText(self.txtT1EPoch.text())
+            self.txtT4Output.setText(self.txtT1OutputPath.text())
+            self.cmbT4NetType.setCurrentIndex(self.cmbT4NetType.findText(self.cmbT3NetType.currentText()))
             
 if __name__=="__main__":  
     import sys  
