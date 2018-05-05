@@ -176,7 +176,117 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.btnT5Stop.clicked.connect(self.T5stop)
         #T5 result:save result
         self.btnT5SaveResult.clicked.connect(self.T5saveresult)
-               
+        #T5 result:show analysis
+        self.btnT5ShowAnalysis.clicked.connect(self.T5showanalysis)
+        #T5 result:save analysis
+        self.btnT5SaveAnalysis.clicked.connect(self.T5saveanalysis)
+        
+
+    #T5 result:save analysis
+    def T5saveanalysis(self):
+        fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Text Files (*.txt);;All Files (*)')
+        if fname[0]:            
+            with open(fname[0],'w') as f:
+                f.write(self.txtT5Analysis.toPlainText())
+
+    #T5 result:show analysis
+    def T5showanalysis(self):
+        s = self.txtT5Result.toPlainText()
+        t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+        out = t
+        #compare array size
+        if self.chkT4ArraySize.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("RRAM Array Size",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("\n",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("RRAM Array Size",c)
+        #compare number of used cores
+        if self.chkT4Cores.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("Number of used Cores",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("\n",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("Number of used Cores",c)  
+        #compare area
+        if self.chkT4Area.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("Area:",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("\n",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("Area:",c)  
+        #compare read dynamic energy
+        if self.chkT4Energy.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("ReadDynamicEnergy",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("\n",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("ReadDynamicEnergy",c)  
+        #compare read power
+        if self.chkT4Power.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("ReadPower",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("\n",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("ReadPower",c) 
+        #compare performance
+        if self.chkT4Performance.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("Performace",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("TOPS/mm^2",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("Performace",c) 
+        #compare Accuracy
+        if self.chkT4Accuracy.isChecked():
+            out += "\n"
+            temp = s
+            i = 0
+            c = 0
+            a = temp.find("Accuracy",c)
+            while a>=0 and a<len(temp):        
+                b = temp.find("\n",a)
+                c = b+1
+                i = i + 1
+                out+=str(i)+" "+temp[a:b]+"\n"
+                a = temp.find("Accuracy",c)                         
+        self.txtT5Analysis.setText(out)
+    
     #T5 result:save result
     def T5saveresult(self):
         fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Text Files (*.txt);;All Files (*)')
@@ -218,7 +328,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def T4outputpath(self):
         fname = QFileDialog.getSaveFileName(self,'Open file',defaultPath,'Image Files (*.npz);;All Files (*)')
         if fname[0]:   
-            self.txtT4OpenNet_2.setText(fname[0])
+            self.txtT4Output.setText(fname[0])
             with open(fname[0],'w') as f:
                 f.write("")
     

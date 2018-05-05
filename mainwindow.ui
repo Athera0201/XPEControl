@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>835</width>
-    <height>628</height>
+    <height>616</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1712,7 +1712,7 @@
       <property name="title">
        <string>结果分析选项</string>
       </property>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="chkT4ArraySize">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1728,7 +1728,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="chkT4Cores">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1744,7 +1744,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_3">
+      <widget class="QCheckBox" name="chkT4Area">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1760,7 +1760,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_4">
+      <widget class="QCheckBox" name="chkT4Energy">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1776,7 +1776,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_5">
+      <widget class="QCheckBox" name="chkT4Power">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1792,39 +1792,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_6">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>130</y>
-         <width>71</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Average</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_7">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>160</y>
-         <width>81</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Show List</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_8">
+      <widget class="QCheckBox" name="chkT4Performance">
        <property name="geometry">
         <rect>
          <x>150</x>
@@ -1840,23 +1808,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox_9">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>100</y>
-         <width>71</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Min/Max</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBox_10">
+      <widget class="QCheckBox" name="chkT4Accuracy">
        <property name="geometry">
         <rect>
          <x>150</x>
@@ -2285,17 +2237,7 @@
       <property name="title">
        <string>分析显示</string>
       </property>
-      <widget class="QListView" name="listView_10">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>40</y>
-         <width>281</width>
-         <height>381</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_34">
+      <widget class="QPushButton" name="btnT5SaveAnalysis">
        <property name="geometry">
         <rect>
          <x>240</x>
@@ -2306,6 +2248,29 @@
        </property>
        <property name="text">
         <string>保存分析</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnT5ShowAnalysis">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>430</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>分析结果</string>
+       </property>
+      </widget>
+      <widget class="QTextBrowser" name="txtT5Analysis">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>40</y>
+         <width>281</width>
+         <height>381</height>
+        </rect>
        </property>
       </widget>
      </widget>
