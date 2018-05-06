@@ -134,7 +134,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>确定</string>
+        <string>下一页</string>
        </property>
       </widget>
       <widget class="QComboBox" name="cmbT1NetType">
@@ -261,7 +261,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>确定</string>
+        <string>下一页</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btnT1RemoveAll">
@@ -323,7 +323,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>确定</string>
+        <string>下一页</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_21">
@@ -984,7 +984,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>确定</string>
+        <string>下一页</string>
        </property>
       </widget>
      </widget>
@@ -1036,7 +1036,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>确定</string>
+        <string>下一页</string>
        </property>
       </widget>
       <widget class="QPushButton" name="btnT2RemoveFile">
@@ -1360,7 +1360,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>确定</string>
+         <string>下一页</string>
         </property>
        </widget>
        <widget class="QPushButton" name="btnT3LoadCase">

@@ -13,5 +13,9 @@
 				conda install mingw libpython
 				conda install m2w64-toolchain
 
+9、结果绘图分析模块使用 Matplotlib库， 配置环境时请安装：
+	python -mpip install -U pip
+	python -mpip install -U matplotlib
+
 
 #开发环境pyqt5 使用对应python版本的pip install PyQt5

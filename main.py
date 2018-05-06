@@ -8,6 +8,7 @@ from test import Ui_MainWindow
 import re
 import subprocess
 from pathlib import Path
+import matplotlib.pyplot as plt
 import time
 
 defaultPath = 'C:\\' 
@@ -194,6 +195,10 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         s = self.txtT5Result.toPlainText()
         t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
         out = t
+        fig, ax = plt.subplots(3, 3)
+        fig.subplots_adjust(left=0.08, right=0.9, bottom=0.05, top=0.9, hspace=0.5, wspace=0.8)
+        fig.set_size_inches(14,9)
+        #fig.subplots_adjust(left=0.125, right=0.9, bottom=0.1 ,top=0.9,wspace = 0.5)
         #compare array size
         if self.chkT4ArraySize.isChecked():
             out += "\n"
@@ -214,12 +219,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             i = 0
             c = 0
             a = temp.find("Number of used Cores",c)
+            listNumber=[]
+            listCores=[]
             while a>=0 and a<len(temp):        
                 b = temp.find("\n",a)
                 c = b+1
                 i = i + 1
                 out+=str(i)+" "+temp[a:b]+"\n"
+                listNumber.append(i)
+                listCores.append(int(temp[a+len("Number of used Cores: "):b]))
                 a = temp.find("Number of used Cores",c)  
+            ax[0,0].plot(listNumber, listCores, 'bs')
+            ax[0,0].set_title("Number of used Cores")
+            ax[0,0].grid(True)
         #compare area
         if self.chkT4Area.isChecked():
             out += "\n"
@@ -227,12 +239,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             i = 0
             c = 0
             a = temp.find("Area:",c)
+            listNumber=[]
+            listArea=[]
             while a>=0 and a<len(temp):        
                 b = temp.find("\n",a)
                 c = b+1
                 i = i + 1
                 out+=str(i)+" "+temp[a:b]+"\n"
+                listNumber.append(i)
+                listArea.append(float(temp[a+len("Area: "):b-len(" mm^2")]))
                 a = temp.find("Area:",c)  
+            ax[0,1].plot(listNumber, listArea, 'bs')
+            ax[0,1].set_title("Area(mm^2)")
+            ax[0,1].grid(True)
         #compare read dynamic energy
         if self.chkT4Energy.isChecked():
             out += "\n"
@@ -240,12 +259,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             i = 0
             c = 0
             a = temp.find("ReadDynamicEnergy",c)
+            listEnergy = []
+            listNumber = []
             while a>=0 and a<len(temp):        
                 b = temp.find("\n",a)
                 c = b+1
                 i = i + 1
                 out+=str(i)+" "+temp[a:b]+"\n"
-                a = temp.find("ReadDynamicEnergy",c)  
+                listNumber.append(i)
+                listEnergy.append(float(temp[a+len("ReadDynamicEnergy: "):b-len(" nJ/img")]))
+                a = temp.find("ReadDynamicEnergy",c)
+            ax[0,2].plot(listNumber, listEnergy, 'bs')
+            ax[0,2].set_title("Read Dynamic Energy(nJ/img)")
+            ax[0,2].grid(True)
         #compare read power
         if self.chkT4Power.isChecked():
             out += "\n"
@@ -253,12 +279,19 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             i = 0
             c = 0
             a = temp.find("ReadPower",c)
+            listPower = []
+            listNumber = []
             while a>=0 and a<len(temp):        
                 b = temp.find("\n",a)
                 c = b+1
                 i = i + 1
                 out+=str(i)+" "+temp[a:b]+"\n"
+                listNumber.append(i)
+                listPower.append(float(temp[a+len("ReadPower: "):b-len(" W")]))
                 a = temp.find("ReadPower",c) 
+            ax[1,0].plot(listNumber, listPower, 'bs')
+            ax[1,0].set_title("Read Power(W)")
+            ax[1,0].grid(True)
         #compare performance
         if self.chkT4Performance.isChecked():
             out += "\n"
@@ -266,12 +299,35 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             i = 0
             c = 0
             a = temp.find("Performace",c)
+            listc = []
+            liste = []
+            lista = []
+            listNumber = []
             while a>=0 and a<len(temp):        
                 b = temp.find("TOPS/mm^2",a)
                 c = b+1
                 i = i + 1
-                out+=str(i)+" "+temp[a:b]+"\n"
+                out+=str(i)+" "+temp[a:b+len(" TOPS/mm^2")]+"\n"
+                listNumber.append(i)
+                indexc = temp.find("Computing Performance",a)
+                indexe = temp.find("Energy Performance",a)
+                indexa = temp.find("Area Performance",a)
+                endc = temp.find("\n",indexc)
+                ende = temp.find("\n",indexe)
+                enda = temp.find("\n",indexa)
+                listc.append(float(temp[indexc+len("Computing Performance: "):endc-len(" TOPS")]))
+                liste.append(float(temp[indexe+len("Energy Performance: "):ende-len(" TOPS/W")]))
+                lista.append(float(temp[indexa+len("Area Performance: "):enda-len(" TOPS/mm^2")]))
                 a = temp.find("Performace",c) 
+            ax[1,1].plot(listNumber, listc, 'bs')
+            ax[1,1].set_title("Computing Performance(TOPS)")
+            ax[1,1].grid(True)
+            ax[1,2].plot(listNumber, liste, 'bs')
+            ax[1,2].set_title("Energy Performance(TOPS/W)")
+            ax[1,2].grid(True)
+            ax[2,0].plot(listNumber, lista, 'bs')
+            ax[2,0].set_title("Area Performance(TOPS/mm^2)")
+            ax[2,0].grid(True)
         #compare Accuracy
         if self.chkT4Accuracy.isChecked():
             out += "\n"
@@ -279,13 +335,21 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             i = 0
             c = 0
             a = temp.find("Accuracy",c)
+            listAccuracy = []
+            listNumber = []
             while a>=0 and a<len(temp):        
                 b = temp.find("\n",a)
                 c = b+1
                 i = i + 1
                 out+=str(i)+" "+temp[a:b]+"\n"
-                a = temp.find("Accuracy",c)                         
+                listNumber.append(i)
+                listAccuracy.append(float(temp[a+len("Accuracy: "):b-len(" %")]))
+                a = temp.find("Accuracy",c)      
+            ax[2,1].plot(listNumber, listAccuracy, 'bs')
+            ax[2,1].set_title("Accuracy(%)")
+            ax[2,1].grid(True)
         self.txtT5Analysis.setText(out)
+        plt.show()
     
     #T5 result:save result
     def T5saveresult(self):
@@ -1037,7 +1101,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
             self.txtT4BatchSize_2.setText(self.txtT1BatchSize.text())
             self.txtT4EPoch.setText(self.txtT1EPoch.text())
             self.txtT4Output.setText(self.txtT1OutputPath.text())
-            self.cmbT4NetType.setCurrentIndex(self.cmbT4NetType.findText(self.cmbT3NetType.currentText()))
+            self.cmbT4NetType.setCurrentIndex(self.cmbT4NetType.findText(self.cmbT1NetType.currentText()))
             
 if __name__=="__main__":  
     import sys  
