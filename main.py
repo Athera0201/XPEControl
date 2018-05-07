@@ -8,11 +8,29 @@ from test import Ui_MainWindow
 import re
 import subprocess
 from pathlib import Path
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use("Qt5Agg")  # 声明使用QT5
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 import time
 
 defaultPath = 'C:\\' 
-
+   
+#class Figure_Canvas(FigureCanvas):  
+#    def __init__(self, parent=None, width=11, height=5, dpi=100):
+#        fig = Figure(figsize=(width, height), dpi=100)  # 创建一个Figure，注意：该Figure为matplotlib下的figure，不是matplotlib.pyplot下面的figure
+#  
+#        FigureCanvas.__init__(self, fig) # 初始化父类
+#        self.setParent(parent)
+#  
+#        self.axes = fig.add_subplot(111) # 调用figure下面的add_subplot方法，类似于matplotlib.pyplot下面的subplot方法
+# 
+#    def test(self):
+#        x = [1,2,3,4,5,6,7,8,9]
+#        y = [23,21,32,13,3,132,13,3,1]
+#        self.axes.plot(x, y)
+        
 class toPrint(QThread):
     output = pyqtSignal(str)
     cont = pyqtSignal()
@@ -182,6 +200,17 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
         #T5 result:save analysis
         self.btnT5SaveAnalysis.clicked.connect(self.T5saveanalysis)
         
+        #T6
+        #self.btnT6Analysis.clicked.connect(self.T6analysis)
+        
+    #T6
+    #def T6analysis(self):
+    #    dr = Figure_Canvas() #实例化一个FigureCanvas
+    #    dr.test()  # 画图
+    #    graphicscene = QtWidgets.QGraphicsScene()  # 第三步，创建一个QGraphicsScene，因为加载的图形（FigureCanvas）不能直接放到graphicview控件中，必须先放到graphicScene，然后再把graphicscene放到graphicview中
+    #    graphicscene.addWidget(dr)  # 第四步，把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到QGraphicsScene中的
+    #    self.T6Analysis.setScene(graphicscene) # 第五步，把QGraphicsScene放入QGraphicsView
+    #    self.T6Analysis.show()  # 最后，调用show方法呈现图形！Voila!!
 
     #T5 result:save analysis
     def T5saveanalysis(self):
@@ -229,7 +258,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 listNumber.append(i)
                 listCores.append(int(temp[a+len("Number of used Cores: "):b]))
                 a = temp.find("Number of used Cores",c)  
-            ax[0,0].plot(listNumber, listCores, 'bs')
+            ax[0,0].bar(listNumber, listCores, color='c')
             ax[0,0].set_title("Number of used Cores")
             ax[0,0].grid(True)
         #compare area
@@ -249,7 +278,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 listNumber.append(i)
                 listArea.append(float(temp[a+len("Area: "):b-len(" mm^2")]))
                 a = temp.find("Area:",c)  
-            ax[0,1].plot(listNumber, listArea, 'bs')
+            ax[0,1].bar(listNumber, listArea, color='c')
             ax[0,1].set_title("Area(mm^2)")
             ax[0,1].grid(True)
         #compare read dynamic energy
@@ -269,7 +298,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 listNumber.append(i)
                 listEnergy.append(float(temp[a+len("ReadDynamicEnergy: "):b-len(" nJ/img")]))
                 a = temp.find("ReadDynamicEnergy",c)
-            ax[0,2].plot(listNumber, listEnergy, 'bs')
+            ax[0,2].bar(listNumber, listEnergy, color='c')
             ax[0,2].set_title("Read Dynamic Energy(nJ/img)")
             ax[0,2].grid(True)
         #compare read power
@@ -289,7 +318,7 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 listNumber.append(i)
                 listPower.append(float(temp[a+len("ReadPower: "):b-len(" W")]))
                 a = temp.find("ReadPower",c) 
-            ax[1,0].plot(listNumber, listPower, 'bs')
+            ax[1,0].bar(listNumber, listPower, color='c')
             ax[1,0].set_title("Read Power(W)")
             ax[1,0].grid(True)
         #compare performance
@@ -319,13 +348,13 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 liste.append(float(temp[indexe+len("Energy Performance: "):ende-len(" TOPS/W")]))
                 lista.append(float(temp[indexa+len("Area Performance: "):enda-len(" TOPS/mm^2")]))
                 a = temp.find("Performace",c) 
-            ax[1,1].plot(listNumber, listc, 'bs')
+            ax[1,1].bar(listNumber, listc, color='c')
             ax[1,1].set_title("Computing Performance(TOPS)")
             ax[1,1].grid(True)
-            ax[1,2].plot(listNumber, liste, 'bs')
+            ax[1,2].bar(listNumber, liste, color='c')
             ax[1,2].set_title("Energy Performance(TOPS/W)")
             ax[1,2].grid(True)
-            ax[2,0].plot(listNumber, lista, 'bs')
+            ax[2,0].bar(listNumber, lista, color='c')
             ax[2,0].set_title("Area Performance(TOPS/mm^2)")
             ax[2,0].grid(True)
         #compare Accuracy
@@ -345,7 +374,8 @@ class mywindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 listNumber.append(i)
                 listAccuracy.append(float(temp[a+len("Accuracy: "):b-len(" %")]))
                 a = temp.find("Accuracy",c)      
-            ax[2,1].plot(listNumber, listAccuracy, 'bs')
+            #ax[2,1].plot(listNumber, listAccuracy, 'cx')
+            ax[2,1].bar(listNumber, listAccuracy,color='c')
             ax[2,1].set_title("Accuracy(%)")
             ax[2,1].grid(True)
         self.txtT5Analysis.setText(out)
@@ -1110,3 +1140,4 @@ if __name__=="__main__":
     myshow=mywindow()  
     myshow.show()  
     sys.exit(app.exec_())
+ 
